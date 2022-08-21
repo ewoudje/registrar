@@ -1,12 +1,10 @@
-package ga.amogussa.datablocks.blackmagic;
+package ga.amogussa.registrar.blackmagic;
 
-import com.chocohead.mm.api.ClassTinkerers;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
@@ -174,7 +172,7 @@ public final class EnumExtender {
                 if (builder.hasParameters()) {
                     String poolKey = builder.type + '#' + addition.name; //As unique as the field name is
 
-                    fieldSetting.add(new FieldInsnNode(Opcodes.GETSTATIC, "ga/amogussa/datablocks/blackmagic/EnumExtender", "POOL", "Ljava/util/Map;"));
+                    fieldSetting.add(new FieldInsnNode(Opcodes.GETSTATIC, "ga/amogussa/registrar/blackmagic/EnumExtender", "POOL", "Ljava/util/Map;"));
                     POOL.put(poolKey, addition.getParameters());
                     fieldSetting.add(new LdcInsnNode(poolKey));
                     fieldSetting.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "java/util/Map", "get", "(Ljava/lang/Object;)Ljava/lang/Object;", true));

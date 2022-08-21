@@ -1,4 +1,4 @@
-package ga.amogussa.datablocks.data;
+package ga.amogussa.registrar.data;
 
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;

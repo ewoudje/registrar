@@ -1,13 +1,13 @@
-package ga.amogussa.datablocks.data;
+package ga.amogussa.registrar.data;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.RegistrarMod;
+import ga.amogussa.registrar.RegistrarMod;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class CreativeTabRegistrar implements ga.amogussa.datablocks.data.Registrar {
+public class CreativeTabRegistrar implements ga.amogussa.registrar.data.Registrar {
     @Override
     public String getType() {
         return "creative_tab";

@@ -1,7 +1,7 @@
-package ga.amogussa.datablocks;
+package ga.amogussa.registrar;
 
 
-import ga.amogussa.datablocks.blackmagic.EnumAdder;
+import ga.amogussa.registrar.blackmagic.EnumAdder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 

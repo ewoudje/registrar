@@ -1,24 +1,28 @@
-package ga.amogussa.datablocks;
+package ga.amogussa.registrar;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
-import ga.amogussa.datablocks.data.BlockRegistrar;
-import ga.amogussa.datablocks.data.CreativeTabRegistrar;
-import ga.amogussa.datablocks.data.ItemRegistrar;
-import ga.amogussa.datablocks.data.PropertiesReader;
+import ga.amogussa.registrar.data.BlockRegistrar;
+import ga.amogussa.registrar.data.CreativeTabRegistrar;
+import ga.amogussa.registrar.data.ItemRegistrar;
+import ga.amogussa.registrar.data.PropertiesReader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.repository.ServerPacksSource;
 import net.minecraft.server.packs.resources.MultiPackResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.CreativeModeTab;
 import org.slf4j.Logger;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -29,8 +33,9 @@ public class RegistrarMod implements ModInitializer {
 
     public static final String ID = "registrar";
     public static final PackType REGISTRAR = PackType.valueOf("REGISTRAR");
-    public static final List<ga.amogussa.datablocks.data.Registrar> REGISTRARS = new ArrayList<>();
+    public static final List<ga.amogussa.registrar.data.Registrar> REGISTRARS = new ArrayList<>();
     public static boolean isClient = false;
+    public static RepositorySource REGISTRAR_SOURCE = new FolderRepositorySource(new File("./registrarpacks"), PackSource.DEFAULT);
 
     @Override
     public void onInitialize() {
@@ -50,7 +55,7 @@ public class RegistrarMod implements ModInitializer {
         repository.setSelected(repository.getAvailableIds());
         ResourceManager manager = new MultiPackResourceManager(REGISTRAR, repository.openAllSelected());
 
-        for (ga.amogussa.datablocks.data.Registrar registrar : REGISTRARS) {
+        for (ga.amogussa.registrar.data.Registrar registrar : REGISTRARS) {
             for (ResourceLocation id : manager.listResources(registrar.getType(), path -> path.endsWith(".json"))) {
                 try (InputStream stream = manager.getResource(id).getInputStream()) {
                     JsonObject root = JsonParser.parseReader(gson.newJsonReader(new InputStreamReader(stream))).getAsJsonObject();

@@ -1,7 +1,7 @@
-package ga.amogussa.datablocks.client;
+package ga.amogussa.registrar.client;
 
-import ga.amogussa.datablocks.BlockHandler;
-import ga.amogussa.datablocks.RegistrarMod;
+import ga.amogussa.registrar.BlockHandler;
+import ga.amogussa.registrar.RegistrarMod;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

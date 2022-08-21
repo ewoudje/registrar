@@ -1,11 +1,9 @@
-package ga.amogussa.datablocks.block;
+package ga.amogussa.registrar.block;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.data.PropertiesReader;
+import ga.amogussa.registrar.data.PropertiesReader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 
 public class BasicBlock extends Block {
     public BasicBlock(ResourceLocation owner, JsonObject root) {

@@ -1,9 +1,8 @@
-package ga.amogussa.datablocks.item;
+package ga.amogussa.registrar.item;
 
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;

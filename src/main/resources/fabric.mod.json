@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "datablocks",
+  "id": "registrar",
   "version": "${version}",
-  "name": "DataBlocks",
+  "name": "Registrar",
   "description": "",
   "authors": [
     "ewoudje"
@@ -13,21 +13,22 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "ga.amogussa.datablocks.client.RegistrarModClient"
+      "ga.amogussa.registrar.client.RegistrarModClient"
     ],
     "main": [
-      "ga.amogussa.datablocks.RegistrarMod"
+      "ga.amogussa.registrar.RegistrarMod"
     ],
     "mm:early_risers": [
-      "ga.amogussa.datablocks.EarlyRiser"
+      "ga.amogussa.registrar.EarlyRiser"
     ]
   },
   "mixins": [
-    "datablocks.mixins.json"
+    "registrar.mixin.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric": "*",
-    "minecraft": "1.18.2"
+    "minecraft": "1.18.2",
+    "mm": "*"
   }
 }

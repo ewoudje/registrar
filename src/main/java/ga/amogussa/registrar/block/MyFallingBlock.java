@@ -1,7 +1,7 @@
-package ga.amogussa.datablocks.block;
+package ga.amogussa.registrar.block;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.data.PropertiesReader;
+import ga.amogussa.registrar.data.PropertiesReader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockGetter;

@@ -1,7 +1,7 @@
-package ga.amogussa.datablocks.item;
+package ga.amogussa.registrar.item;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.data.PropertiesReader;
+import ga.amogussa.registrar.data.PropertiesReader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 

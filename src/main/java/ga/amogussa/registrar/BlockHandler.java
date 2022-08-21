@@ -1,4 +1,4 @@
-package ga.amogussa.datablocks;
+package ga.amogussa.registrar;
 
 import com.google.gson.JsonObject;
 import net.fabricmc.api.EnvType;

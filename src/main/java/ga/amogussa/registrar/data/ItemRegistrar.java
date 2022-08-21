@@ -1,13 +1,10 @@
-package ga.amogussa.datablocks.data;
+package ga.amogussa.registrar.data;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.ItemHandler;
-import ga.amogussa.datablocks.item.BasicItem;
-import ga.amogussa.datablocks.item.LoredItem;
+import ga.amogussa.registrar.ItemHandler;
+import ga.amogussa.registrar.item.BasicItem;
+import ga.amogussa.registrar.item.LoredItem;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ItemRegistrar implements Registrar {
     @Override

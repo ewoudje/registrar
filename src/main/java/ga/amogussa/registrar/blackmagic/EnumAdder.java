@@ -1,4 +1,4 @@
-package ga.amogussa.datablocks.blackmagic;
+package ga.amogussa.registrar.blackmagic;
 
 import com.chocohead.mm.api.ClassTinkerers;
 import org.objectweb.asm.Type;

@@ -1,10 +1,10 @@
-package ga.amogussa.datablocks.data;
+package ga.amogussa.registrar.data;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.BlockHandler;
-import ga.amogussa.datablocks.block.BasicBlock;
-import ga.amogussa.datablocks.block.MyBushBlock;
-import ga.amogussa.datablocks.block.MyFallingBlock;
+import ga.amogussa.registrar.BlockHandler;
+import ga.amogussa.registrar.block.BasicBlock;
+import ga.amogussa.registrar.block.MyBushBlock;
+import ga.amogussa.registrar.block.MyFallingBlock;
 import net.minecraft.resources.ResourceLocation;
 
 public class BlockRegistrar implements Registrar {
