@@ -1,6 +1,8 @@
 plugins {
+    id 'java'
     id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'maven-publish'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -75,16 +77,62 @@ jar {
 // configure the maven publication
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            from components.java
+        mavenJava(MavenPublication) { from components.java }
+    }
+
+    // Add repositories to publish to
+    repositories {
+        // GitHub Packages (https://pkg.github.com)
+        maven {
+            name 'GitHub'
+            url "https://maven.pkg.github.com/${project.github_repo}"
+            credentials {
+                username System.getenv('GITHUB_ACTOR')
+                password System.getenv('GITHUB_TOKEN')
+            }
+        }
+    }
+}
+
+/*
+curseforge {
+    // Set the API token from the environment
+    apiKey System.getenv('CURSEFORGE_TOKEN') ?: ''
+
+    // Declare all projects
+    project {
+        // Set the project id
+        id = project.cf_project_id
+        // Set the release type
+        releaseType = project.version.contains('alpha') ? 'alpha' : project.version.contains('beta') ? 'beta' : 'release'
+        // Set the release notes
+        changelog = project.getChangelogNotes()
+        // Add all supported game versions
+        project.cf_game_versions.split(', ').each { addGameVersion it }
+        // Add the main artifact
+        mainArtifact(remapJar) { displayName = "${project.mod_name} v${project.version} for Minecraft ${project.minecraft_version}" }
+        // Add any additional artifacts
+        addArtifact remapSourcesJar
+        addArtifact javadocJar
+        subprojects.each {
+            addArtifact it.remapJar
+            addArtifact it.remapSourcesJar
+            addArtifact it.javadocJar
+        }
+        // Add any dependencies
+        relations {
+            if (project.cf_relations_required) project.cf_relations_required.split(', ').each { requiredDependency it }
+            if (project.cf_relations_optional) project.cf_relations_optional.split(', ').each { optionalDependency it }
+            if (project.cf_relations_embedded) project.cf_relations_embedded.split(', ').each { embeddedLibrary it }
+            if (project.cf_relations_tools) project.cf_relations_tools.split(', ').each { tool it }
+            if (project.cf_relations_incompatible) project.cf_relations_incompatible.split(', ').each { incompatible it }
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
+    // Configure other options
+    options {
+        forgeGradleIntegration = false
+        debug = System.getenv('CURSEFORGE_DEBUG') as boolean ?: false
     }
 }
+*/
