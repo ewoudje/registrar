@@ -13,10 +13,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "ga.amogussa.datablocks.client.DataBlocksClient"
+      "ga.amogussa.datablocks.client.RegistrarModClient"
     ],
     "main": [
-      "ga.amogussa.datablocks.DataBlocks"
+      "ga.amogussa.datablocks.RegistrarMod"
     ],
     "mm:early_risers": [
       "ga.amogussa.datablocks.EarlyRiser"

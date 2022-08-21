@@ -1,12 +1,10 @@
 package ga.amogussa.datablocks;
 
 import com.google.gson.JsonObject;
-import ga.amogussa.datablocks.block.BasicBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +21,7 @@ public class BlockHandler {
             ItemHandler.registerBlock(location, block, root.getAsJsonObject("item"));
         }
 
-        if (root.has("layer") && DataBlocks.isClient) {
+        if (root.has("layer") && RegistrarMod.isClient) {
             ResourceLocation layer = new ResourceLocation(root.get("layer").getAsString());
             BlockRenderLayerMap.INSTANCE.putBlock(block, layers.get(layer));
         }
