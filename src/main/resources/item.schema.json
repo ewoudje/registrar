@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://schema.amogus-sa.ga/mc-registar/item.schema.json",
+  "title": "Item",
+  "description": "A item getting registered with properties",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "basic"
+      ]
+    },
+    "stackSize": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    },
+    "creativeTab": {
+      "description": "Tab where the item should be displayed",
+      "type": "string",
+      "enum": [
+        "minecraft:brewing",
+        "minecraft:combat",
+        "minecraft:decorations",
+        "minecraft:food",
+        "minecraft:building_blocks",
+        "minecraft:tools",
+        "minecraft:transportation",
+        "minecraft:misc"
+      ]
+    },
+    "rarity": {
+      "description": "Rarity",
+      "type": "string",
+      "enum": [
+        "COMMON",
+        "UNCOMMON",
+        "RARE",
+        "EPIC"
+      ]
+    },
+    "food": {
+      "description": "Food",
+      "type": "object",
+      "properties": {
+        "hunger": {
+          "description": "Hunger",
+          "type": "integer"
+        },
+        "saturationModifier": {
+          "description": "Saturation",
+          "type": "number"
+        },
+        "canAlwaysEat": {
+          "description": "If the food can be eaten even if the player is full",
+          "type": "boolean"
+        },
+        "meat": {
+          "description": "If the food is a meat",
+          "type": "boolean"
+        },
+        "fast": {
+          "description": "If the food is fast (SPEEDDD)",
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [ "type" ]
+}

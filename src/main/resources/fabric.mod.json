@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "datablocks",
+  "version": "${version}",
+  "name": "DataBlocks",
+  "description": "",
+  "authors": [
+    "ewoudje"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/datablocks/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "ga.amogussa.datablocks.client.DataBlocksClient"
+    ],
+    "main": [
+      "ga.amogussa.datablocks.DataBlocks"
+    ],
+    "mm:early_risers": [
+      "ga.amogussa.datablocks.EarlyRiser"
+    ]
+  },
+  "mixins": [
+    "datablocks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}

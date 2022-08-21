@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.amogus-sa.ga/mc-registar/block.schema.json",
+  "title": "Block",
+  "description": "A block getting registered with properties",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "falling"
+      ]
+    },
+    "unbreakable": {
+      "description": "The unique identifier for a product",
+      "type": "boolean"
+    },
+    "item": {
+      "description": "Properties of the item of the block",
+      "$ref": "https://schema.amogus-sa.ga/mc-registar/item.schema.json"
+    },
+    "destroyTime": {
+      "description": "The time it takes to destroy the block",
+      "type": "number"
+    },
+    "explosionResistance": {
+      "description": "The resistance of the block to explosions",
+      "type": "number"
+    },
+    "layer": {
+      "description": "https://github.com/ShockMicro/Minecraft-Shaders/wiki/Core-Shaders",
+      "type": "string",
+      "enum": [
+        "minecraft:solid",
+        "minecraft:cutout",
+        "minecraft:cutout_mipped",
+        "minecraft:translucent",
+        "minecraft:tripwire"
+      ]
+    },
+    "dustColor": {
+      "description": "The color of dust for falling blocks; in hexadecimal string format",
+      "type": "string"
+    },
+    "soundType": {
+      "description": "The soundtype of the block",
+      "type": "string"
+    },
+    "material": {
+      "description": "The material of the block",
+      "type": "string"
+    }
+  },
+  "required": [ "type" ]
+}
