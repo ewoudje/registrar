@@ -9,11 +9,11 @@
       "type": "string",
       "enum": [
         "basic",
-        "falling"
+        "falling",
+        "bush"
       ]
     },
     "unbreakable": {
-      "description": "The unique identifier for a product",
       "type": "boolean"
     },
     "item": {
