@@ -1,4 +1,4 @@
-package ga.amogussa.registrar;
+package ga.amogussa.registrar.blackmagic;
 
 
 import ga.amogussa.registrar.blackmagic.EnumAdder;

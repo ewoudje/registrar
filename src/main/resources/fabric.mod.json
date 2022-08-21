@@ -19,7 +19,7 @@
       "ga.amogussa.registrar.RegistrarMod"
     ],
     "mm:early_risers": [
-      "ga.amogussa.registrar.EarlyRiser"
+      "ga.amogussa.registrar.blackmagic.EarlyRiser"
     ]
   },
   "mixins": [
