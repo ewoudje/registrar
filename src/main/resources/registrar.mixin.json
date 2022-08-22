@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "ga.amogussa.registrar.blackmagic.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "ga.amogussa.registrar.blackmagic.manninghammills.Plugin",
   "mixins": [
     "MixinPackRepository"
   ],

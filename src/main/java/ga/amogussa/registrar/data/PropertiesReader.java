@@ -1,6 +1,5 @@
 package ga.amogussa.registrar.data;
 
-import com.chocohead.mm.MM;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
@@ -142,11 +141,12 @@ public class PropertiesReader {
         tabs.put(location, tab);
     }
 
+    /* Used for generating the static below
     static {
         fillStaticMap(SoundType.class, "soundTypes");
         fillStaticMap(Material.class, "materials");
         fillStaticMap(CreativeModeTab.class, "tabs", (s) -> s.substring(4), (s) ->! s.equals("tabs"));
-    }
+    }*/
 
     private static <T> void fillStaticMap(Class<T> clazz, String mapName) {
         fillStaticMap(clazz, mapName, (s) -> s, (s) -> true);
