@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class MixinClientPackSource {
 
     @Inject(method = "loadPacks", at = @At("RETURN"))
-    private void addBuiltinResourcePacks(Consumer<Pack> consumer, Pack.PackConstructor factory, CallbackInfo ci) {
-        RegistrarMod.REGISTRAR_REPOSITORY.getSelectedPacks().forEach(consumer);
+    private void loadRegistrarPack(Consumer<Pack> consumer, Pack.PackConstructor factory, CallbackInfo ci) {
+        RegistrarMod.REGISTRAR_SOURCE.loadPacks(consumer, factory);
     }
 }

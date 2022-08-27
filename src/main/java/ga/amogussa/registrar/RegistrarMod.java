@@ -8,6 +8,7 @@ import ga.amogussa.registrar.data.BlockRegistrar;
 import ga.amogussa.registrar.data.CreativeTabRegistrar;
 import ga.amogussa.registrar.data.ItemRegistrar;
 import ga.amogussa.registrar.data.PropertiesReader;
+import ga.amogussa.registrar.data.Registrar;
 import ga.amogussa.registrar.data.RegistrarPackSource;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
 import net.minecraft.resources.ResourceLocation;
@@ -28,17 +29,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrarMod {
+    private static final Logger LOGGER = LogUtils.getLogger();
     public static final String ID = "registrar";
+
     public static final PackType REGISTRAR = PackType.valueOf("REGISTRAR");
-    public static final List<ga.amogussa.registrar.data.Registrar> REGISTRARS = new ArrayList<>();
+    public static final List<Registrar> REGISTRARS = new ArrayList<>();
     public static final String registrarPacksFolder = "./registrarpacks";
+    public static final RepositorySource REGISTRAR_SOURCE = new FolderRepositorySource(new File(registrarPacksFolder), RegistrarPackSource.INSTANCE);
     public static final PackRepository REGISTRAR_REPOSITORY = new PackRepository(REGISTRAR,
             new ServerPacksSource(),
             new ModResourcePackCreator(REGISTRAR)
     );
-    private static final Logger LOGGER = LogUtils.getLogger();
+
     public static boolean isClient = false;
-    public static RepositorySource REGISTRAR_SOURCE = new FolderRepositorySource(new File(registrarPacksFolder), RegistrarPackSource.INSTANCE);
 
     // Gets called from clienst and server initialization
     public static void init() {
