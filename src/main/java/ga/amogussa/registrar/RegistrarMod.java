@@ -28,7 +28,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrarMod implements ModInitializer {
+public class RegistrarMod {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final String ID = "registrar";
@@ -37,8 +37,8 @@ public class RegistrarMod implements ModInitializer {
     public static boolean isClient = false;
     public static RepositorySource REGISTRAR_SOURCE = new FolderRepositorySource(new File("./registrarpacks"), PackSource.DEFAULT);
 
-    @Override
-    public void onInitialize() {
+    // Gets called from client and server initialization
+    public static void init() {
         Gson gson = new Gson();
 
         // ORDER IS IMPORTANT!!

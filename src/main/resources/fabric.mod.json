@@ -8,15 +8,15 @@
     "ewoudje"
   ],
   "contact": {},
-  "license": "MIT",
+  "license": "GPL-3-or-later",
   "icon": "assets/datablocks/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
       "ga.amogussa.registrar.client.RegistrarModClient"
     ],
-    "main": [
-      "ga.amogussa.registrar.RegistrarMod"
+    "server": [
+      "ga.amogussa.registrar.server.RegistrarModServer"
     ]
   },
   "mixins": [

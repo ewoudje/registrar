@@ -13,5 +13,6 @@ public class RegistrarModClient implements ClientModInitializer {
     public void onInitializeClient() {
         RegistrarMod.isClient = true;
         BlockHandler.initRenderTypes();
+        RegistrarMod.init();
     }
 }

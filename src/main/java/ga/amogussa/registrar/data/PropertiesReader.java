@@ -127,7 +127,11 @@ public class PropertiesReader {
     private static <T> T computeOrDefault(JsonObject root, String element, Function<JsonElement, T> compute, T def) {
         if (root.get(element) == null) return def;
         try {
-            return compute.apply(root.get(element));
+            T result = compute.apply(root.get(element));
+
+            if (result == null) throw new NullPointerException("Invalid input for " + element);
+
+            return result;
         } catch (Exception e) {
             throw new RuntimeException("Invalid " + element + " for " + root.get(element), e);
         }
