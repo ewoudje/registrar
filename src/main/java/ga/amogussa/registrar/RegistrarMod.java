@@ -8,13 +8,12 @@ import ga.amogussa.registrar.data.BlockRegistrar;
 import ga.amogussa.registrar.data.CreativeTabRegistrar;
 import ga.amogussa.registrar.data.ItemRegistrar;
 import ga.amogussa.registrar.data.PropertiesReader;
-import net.fabricmc.api.ModInitializer;
+import ga.amogussa.registrar.data.RegistrarPackSource;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.repository.ServerPacksSource;
 import net.minecraft.server.packs.resources.MultiPackResourceManager;
@@ -29,15 +28,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrarMod {
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     public static final String ID = "registrar";
     public static final PackType REGISTRAR = PackType.valueOf("REGISTRAR");
     public static final List<ga.amogussa.registrar.data.Registrar> REGISTRARS = new ArrayList<>();
+    public static final String registrarPacksFolder = "./registrarpacks";
+    public static final PackRepository REGISTRAR_REPOSITORY = new PackRepository(REGISTRAR,
+            new ServerPacksSource(),
+            new ModResourcePackCreator(REGISTRAR)
+    );
+    private static final Logger LOGGER = LogUtils.getLogger();
     public static boolean isClient = false;
-    public static RepositorySource REGISTRAR_SOURCE = new FolderRepositorySource(new File("./registrarpacks"), PackSource.DEFAULT);
+    public static RepositorySource REGISTRAR_SOURCE = new FolderRepositorySource(new File(registrarPacksFolder), RegistrarPackSource.INSTANCE);
 
-    // Gets called from client and server initialization
+    // Gets called from clienst and server initialization
     public static void init() {
         Gson gson = new Gson();
 
@@ -46,14 +49,10 @@ public class RegistrarMod {
         REGISTRARS.add(new BlockRegistrar());
         REGISTRARS.add(new ItemRegistrar());
 
-        PackRepository repository = new PackRepository(REGISTRAR,
-                new ServerPacksSource(),
-                new ModResourcePackCreator(REGISTRAR)
-        );
-        repository.reload();
+        REGISTRAR_REPOSITORY.reload();
 
-        repository.setSelected(repository.getAvailableIds());
-        ResourceManager manager = new MultiPackResourceManager(REGISTRAR, repository.openAllSelected());
+        REGISTRAR_REPOSITORY.setSelected(REGISTRAR_REPOSITORY.getAvailableIds());
+        ResourceManager manager = new MultiPackResourceManager(REGISTRAR, REGISTRAR_REPOSITORY.openAllSelected());
 
         for (ga.amogussa.registrar.data.Registrar registrar : REGISTRARS) {
             for (ResourceLocation id : manager.listResources(registrar.getType(), path -> path.endsWith(".json"))) {
@@ -68,12 +67,13 @@ public class RegistrarMod {
             }
         }
 
-        repository.close();
+        REGISTRAR_REPOSITORY.close();
     }
 
     public static ResourceLocation id(String id) {
         return new ResourceLocation(ID, id);
     }
+
     public static void addCreativeTab(ResourceLocation id, CreativeModeTab tab) {
         PropertiesReader.addTab(id, tab);
     }

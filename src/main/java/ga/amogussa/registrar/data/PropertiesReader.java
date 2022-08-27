@@ -23,149 +23,7 @@ public class PropertiesReader {
     private static final Map<ResourceLocation, SoundType> soundTypes = new HashMap<>();
     private static final Map<ResourceLocation, CreativeModeTab> tabs = new HashMap<>();
 
-    public static BlockBehaviour.Properties block(ResourceLocation owner, JsonObject root) {
-        if (root == null) return BlockBehaviour.Properties.of(Material.STONE);
-        Material material = computeOrDefault(root, "material",
-                (m) -> materials.get(new ResourceLocation(m.getAsString())),
-                Material.STONE);
-
-        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of(material);
-
-        properties.destroyTime(computeOrDefault(root, "destroyTime",
-                JsonElement::getAsFloat,
-                1f));
-
-        properties.explosionResistance(computeOrDefault(root, "explosionResistance",
-                JsonElement::getAsFloat,
-                1f));
-
-        if (computeOrDefault(root, "noCollission",
-                JsonElement::getAsBoolean,
-                false))
-            properties.noCollission();
-
-        if (computeOrDefault(root, "noOcclusion",
-                JsonElement::getAsBoolean,
-                false))
-            properties.noOcclusion();
-
-        if (computeOrDefault(root, "noDrops",
-                JsonElement::getAsBoolean,
-                false))
-            properties.noDrops();
-
-        if (computeOrDefault(root, "requiresCorrectToolForDrops",
-                JsonElement::getAsBoolean,
-                false))
-            properties.requiresCorrectToolForDrops();
-
-        properties.sound(computeOrDefault(root, "soundType",
-                (m) -> soundTypes.get(new ResourceLocation(m.getAsString())),
-                SoundType.STONE));
-
-        return properties;
-    }
-
-    public static Item.Properties item(ResourceLocation owner, JsonObject item) {
-        Item.Properties properties = new Item.Properties();
-        if (item == null) return properties.tab(getDefaultTab());
-
-        properties.stacksTo(computeOrDefault(item, "stackSize",
-                JsonElement::getAsInt, 64));
-
-        CreativeModeTab tab = computeOrDefault(item,"creativeTab",
-                (m) -> tabs.get(new ResourceLocation(m.getAsString())),
-                getDefaultTab());
-
-        properties.rarity(computeOrDefault(item,"rarity",
-                (m) -> Rarity.valueOf(m.getAsString()),
-                Rarity.COMMON));
-
-        properties.food(food(owner, item.getAsJsonObject("food")));
-
-        if (tab != null)
-            properties.tab(tab);
-
-        return properties;
-    }
-
-    private static FoodProperties food(ResourceLocation owner, JsonObject food) {
-        if (food == null) return null;
-
-        FoodProperties.Builder builder = new FoodProperties.Builder();
-
-        if (computeOrDefault(food, "meat",
-                JsonElement::getAsBoolean,
-                false))
-            builder.meat();
-
-        if (computeOrDefault(food, "fast",
-                JsonElement::getAsBoolean,
-                false))
-            builder.fast();
-
-        if (computeOrDefault(food,"canAlwaysEat",
-                JsonElement::getAsBoolean,
-                false))
-            builder.alwaysEat();
-
-        builder.nutrition(computeOrDefault(food,"nutrition",
-                JsonElement::getAsInt,
-                1));
-
-        builder.saturationMod(computeOrDefault(food,"saturationModifier",
-                JsonElement::getAsFloat,
-                0.3f));
-
-        return builder.build();
-    }
-
-    private static CreativeModeTab getDefaultTab() {
-        return CreativeModeTab.TAB_MISC;
-    }
-
-    private static <T> T computeOrDefault(JsonObject root, String element, Function<JsonElement, T> compute, T def) {
-        if (root.get(element) == null) return def;
-        try {
-            T result = compute.apply(root.get(element));
-
-            if (result == null) throw new NullPointerException("Invalid input for " + element);
-
-            return result;
-        } catch (Exception e) {
-            throw new RuntimeException("Invalid " + element + " for " + root.get(element), e);
-        }
-    }
-
-    private static ResourceLocation mc(String name) {
-        return new ResourceLocation("minecraft", name);
-    }
-
-    public static void addTab(ResourceLocation location, CreativeModeTab tab) {
-        tabs.put(location, tab);
-    }
-
-    /* Used for generating the static below
     static {
-        fillStaticMap(SoundType.class, "soundTypes");
-        fillStaticMap(Material.class, "materials");
-        fillStaticMap(CreativeModeTab.class, "tabs", (s) -> s.substring(4), (s) ->! s.equals("tabs"));
-    }*/
-
-    private static <T> void fillStaticMap(Class<T> clazz, String mapName) {
-        fillStaticMap(clazz, mapName, (s) -> s, (s) -> true);
-    }
-
-    private static <T> void fillStaticMap(Class<T> clazz, String mapName, Function<String, String> name, Predicate<String> filter) {
-        Arrays.stream(clazz.getDeclaredFields())
-                .filter((f) -> Modifier.isStatic(f.getModifiers()))
-                .filter((f) -> filter.test(f.getName()))
-                .forEach((f) -> {
-                    System.out.println(mapName + ".put(mc(\"" + name.apply(f.getName().toLowerCase()) + "\"), " + clazz.getSimpleName() + "." + f.getName() + ");");
-                });
-    }
-
-    static  {
         soundTypes.put(mc("wood"), SoundType.WOOD);
         soundTypes.put(mc("gravel"), SoundType.GRAVEL);
         soundTypes.put(mc("grass"), SoundType.GRASS);
@@ -302,5 +160,147 @@ public class PropertiesReader {
         tabs.put(mc("materials"), CreativeModeTab.TAB_MATERIALS);
         tabs.put(mc("hotbar"), CreativeModeTab.TAB_HOTBAR);
         tabs.put(mc("inventory"), CreativeModeTab.TAB_INVENTORY);
+    }
+
+    public static BlockBehaviour.Properties block(ResourceLocation owner, JsonObject root) {
+        if (root == null) return BlockBehaviour.Properties.of(Material.STONE);
+        Material material = computeOrDefault(root, "material",
+                (m) -> materials.get(new ResourceLocation(m.getAsString())),
+                Material.STONE);
+
+        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of(material);
+
+        properties.destroyTime(computeOrDefault(root, "destroyTime",
+                JsonElement::getAsFloat,
+                1f));
+
+        properties.explosionResistance(computeOrDefault(root, "explosionResistance",
+                JsonElement::getAsFloat,
+                1f));
+
+        if (computeOrDefault(root, "noCollission",
+                JsonElement::getAsBoolean,
+                false))
+            properties.noCollission();
+
+        if (computeOrDefault(root, "noOcclusion",
+                JsonElement::getAsBoolean,
+                false))
+            properties.noOcclusion();
+
+        if (computeOrDefault(root, "noDrops",
+                JsonElement::getAsBoolean,
+                false))
+            properties.noDrops();
+
+        if (computeOrDefault(root, "requiresCorrectToolForDrops",
+                JsonElement::getAsBoolean,
+                false))
+            properties.requiresCorrectToolForDrops();
+
+        properties.sound(computeOrDefault(root, "soundType",
+                (m) -> soundTypes.get(new ResourceLocation(m.getAsString())),
+                SoundType.STONE));
+
+        return properties;
+    }
+
+    public static Item.Properties item(ResourceLocation owner, JsonObject item) {
+        Item.Properties properties = new Item.Properties();
+        if (item == null) return properties.tab(getDefaultTab());
+
+        properties.stacksTo(computeOrDefault(item, "stackSize",
+                JsonElement::getAsInt, 64));
+
+        CreativeModeTab tab = computeOrDefault(item, "creativeTab",
+                (m) -> tabs.get(new ResourceLocation(m.getAsString())),
+                getDefaultTab());
+
+        properties.rarity(computeOrDefault(item, "rarity",
+                (m) -> Rarity.valueOf(m.getAsString()),
+                Rarity.COMMON));
+
+        properties.food(food(owner, item.getAsJsonObject("food")));
+
+        if (tab != null)
+            properties.tab(tab);
+
+        return properties;
+    }
+
+    private static FoodProperties food(ResourceLocation owner, JsonObject food) {
+        if (food == null) return null;
+
+        FoodProperties.Builder builder = new FoodProperties.Builder();
+
+        if (computeOrDefault(food, "meat",
+                JsonElement::getAsBoolean,
+                false))
+            builder.meat();
+
+        if (computeOrDefault(food, "fast",
+                JsonElement::getAsBoolean,
+                false))
+            builder.fast();
+
+        if (computeOrDefault(food, "canAlwaysEat",
+                JsonElement::getAsBoolean,
+                false))
+            builder.alwaysEat();
+
+        builder.nutrition(computeOrDefault(food, "nutrition",
+                JsonElement::getAsInt,
+                1));
+
+        builder.saturationMod(computeOrDefault(food, "saturationModifier",
+                JsonElement::getAsFloat,
+                0.3f));
+
+        return builder.build();
+    }
+
+    private static CreativeModeTab getDefaultTab() {
+        return CreativeModeTab.TAB_MISC;
+    }
+
+    private static <T> T computeOrDefault(JsonObject root, String element, Function<JsonElement, T> compute, T def) {
+        if (root.get(element) == null) return def;
+        try {
+            T result = compute.apply(root.get(element));
+
+            if (result == null) throw new NullPointerException("Invalid input for " + element);
+
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid " + element + " for " + root.get(element), e);
+        }
+    }
+
+    private static ResourceLocation mc(String name) {
+        return new ResourceLocation("minecraft", name);
+    }
+
+    /* Used for generating the static below
+    static {
+        fillStaticMap(SoundType.class, "soundTypes");
+        fillStaticMap(Material.class, "materials");
+        fillStaticMap(CreativeModeTab.class, "tabs", (s) -> s.substring(4), (s) ->! s.equals("tabs"));
+    }*/
+
+    public static void addTab(ResourceLocation location, CreativeModeTab tab) {
+        tabs.put(location, tab);
+    }
+
+    private static <T> void fillStaticMap(Class<T> clazz, String mapName) {
+        fillStaticMap(clazz, mapName, (s) -> s, (s) -> true);
+    }
+
+    private static <T> void fillStaticMap(Class<T> clazz, String mapName, Function<String, String> name, Predicate<String> filter) {
+        Arrays.stream(clazz.getDeclaredFields())
+                .filter((f) -> Modifier.isStatic(f.getModifiers()))
+                .filter((f) -> filter.test(f.getName()))
+                .forEach((f) -> {
+                    System.out.println(mapName + ".put(mc(\"" + name.apply(f.getName().toLowerCase()) + "\"), " + clazz.getSimpleName() + "." + f.getName() + ");");
+                });
     }
 }

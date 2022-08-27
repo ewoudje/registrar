@@ -9,6 +9,7 @@ public interface Registrar {
 
     void handle(ResourceLocation id, JsonObject root);
 
-    default void setupTags() {}
+    default void setupTags() {
+    }
 
 }

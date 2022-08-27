@@ -52,5 +52,7 @@
       "type": "string"
     }
   },
-  "required": [ "type" ]
+  "required": [
+    "type"
+  ]
 }

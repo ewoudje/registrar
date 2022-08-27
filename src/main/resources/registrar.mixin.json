@@ -8,6 +8,7 @@
     "MixinPackRepository"
   ],
   "client": [
+    "MixinClientPackSource"
   ],
   "injectors": {
     "defaultRequire": 1
