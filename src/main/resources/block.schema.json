@@ -50,6 +50,10 @@
     "material": {
       "description": "The material of the block",
       "type": "string"
+    },
+    "lightLevel": {
+      "description": "The light level of the block",
+      "type": "number"
     }
   },
   "required": [
