@@ -202,6 +202,13 @@ public class PropertiesReader {
                 (m) -> soundTypes.get(new ResourceLocation(m.getAsString())),
                 SoundType.STONE));
 
+        int lightLevel = computeOrDefault(root, "lightLevel",
+                JsonElement::getAsInt,
+                0);
+
+        if (lightLevel != 0)
+            properties.lightLevel((state) -> lightLevel);
+
         return properties;
     }
 
