@@ -26,13 +26,13 @@ public class MixinEntitySelector implements EntityGetterUser {
     }
 
     @Override
-    public boolean hasSpecificEntityGetter() {
-        return specificEntityGetter != null;
+    public int specificEntityGetterSize() {
+        return specificEntityGetter != null ? specificEntityGetter.getSize() : Integer.MAX_VALUE;
     }
 
     @Redirect(method = "addEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;getEntities(Lnet/minecraft/world/level/entity/EntityTypeTest;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"))
     <T extends Entity> List<T> getEntities1(ServerLevel instance, EntityTypeTest<Entity, T> entityTypeTest, AABB aabb, Predicate<T> predicate) {
-        if (hasSpecificEntityGetter()) {
+        if (specificEntityGetter != null) {
             specificEntityGetter.fromLevel(instance);
             return specificEntityGetter.getEntities(entityTypeTest, aabb, predicate);
         } else {
@@ -42,7 +42,7 @@ public class MixinEntitySelector implements EntityGetterUser {
 
     @Redirect(method = "addEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;getEntities(Lnet/minecraft/world/level/entity/EntityTypeTest;Ljava/util/function/Predicate;)Ljava/util/List;"))
     <T extends Entity> List<T> getEntities2(ServerLevel instance, EntityTypeTest<Entity, T> entityTypeTest, Predicate<T> predicate) {
-        if (hasSpecificEntityGetter()) {
+        if (specificEntityGetter != null) {
             specificEntityGetter.fromLevel(instance);
             return specificEntityGetter.getEntities(entityTypeTest, predicate);
         } else {

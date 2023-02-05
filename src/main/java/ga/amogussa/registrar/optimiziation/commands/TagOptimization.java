@@ -20,14 +20,13 @@ public class TagOptimization {
             boolean bl = parser.shouldInvertValue();
             String string = parser.getReader().readUnquotedString();
             if ("".equals(string)) {
-                parser.addPredicate((entity) -> entity.getTags().isEmpty() == bl);
+                parser.addPredicate((entity) -> entity.getTags().isEmpty() != bl);
             } else {
                 EntityGetterUser parser2 = (EntityGetterUser) parser;
-                if (parser2.hasSpecificEntityGetter()) {
-                    parser.addPredicate((entity) -> entity.getTags().contains(string) == bl);
-                } else {
-                    // TODO bl
-                    parser2.setSpecificEntityGetter(inverse(getEntityGetters(string), bl));
+                RegistrarEntityGetter getter = inverse(getEntityGetters(string), bl);
+                parser.addPredicate((entity) -> entity.getTags().contains(string) != bl);
+                if (parser2.specificEntityGetterSize() > getter.getSize()) {
+                    parser2.setSpecificEntityGetter(getter);
                 }
             }
         };
@@ -82,6 +81,11 @@ public class TagOptimization {
                     .map(entityTypeTest::tryCast)
                     .filter(i -> i != null && i.level == level && predicate.test(i))
                     .toList();
+        }
+
+        @Override
+        public int getSize() {
+            return taggedEntities.size();
         }
 
         @Override

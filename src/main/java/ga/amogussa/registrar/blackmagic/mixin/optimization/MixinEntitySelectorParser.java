@@ -22,8 +22,8 @@ public class MixinEntitySelectorParser implements EntityGetterUser {
     }
 
     @Override
-    public boolean hasSpecificEntityGetter() {
-        return specificEntityGetter != null;
+    public int specificEntityGetterSize() {
+        return specificEntityGetter != null ? specificEntityGetter.getSize() : Integer.MAX_VALUE;
     }
 
     @Inject(method = "getSelector", at = @At("RETURN"))

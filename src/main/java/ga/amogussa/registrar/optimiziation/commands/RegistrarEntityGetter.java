@@ -13,4 +13,6 @@ public interface RegistrarEntityGetter extends EntityGetter {
     void fromLevel(ServerLevel level);
 
     <T extends Entity> List<T> getEntities(EntityTypeTest<Entity, T> entityTypeTest, Predicate<? super T> predicate);
+
+    int getSize();
 }
