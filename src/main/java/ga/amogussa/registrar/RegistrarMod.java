@@ -11,6 +11,7 @@ import ga.amogussa.registrar.data.PropertiesReader;
 import ga.amogussa.registrar.data.Registrar;
 import ga.amogussa.registrar.data.RegistrarPackSource;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
+import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
@@ -19,7 +20,11 @@ import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.repository.ServerPacksSource;
 import net.minecraft.server.packs.resources.MultiPackResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Zoglin;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.levelgen.Heightmap;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -71,6 +76,15 @@ public class RegistrarMod {
         }
 
         REGISTRAR_REPOSITORY.close();
+
+        // Fixes zoglin bug
+        try {
+            SpawnRestrictionAccessor.callRegister(
+                    EntityType.ZOGLIN,
+                    SpawnPlacements.Type.ON_GROUND,
+                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    Zoglin::checkMobSpawnRules);
+        } catch (IllegalStateException e) { }
     }
 
     public static ResourceLocation id(String id) {
