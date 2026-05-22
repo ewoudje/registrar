@@ -11,7 +11,7 @@ import static ga.amogussa.registrar.RegistrarMod.REGISTRAR_SOURCE;
 @Mixin(PackRepository.class)
 public class MixinPackRepository {
     @Redirect(
-            method = "<init>(Lnet/minecraft/server/packs/repository/Pack$PackConstructor;[Lnet/minecraft/server/packs/repository/RepositorySource;)V",
+            method = "<init>",
             at = @At(
                     value = "INVOKE",
                     target = "Lcom/google/common/collect/ImmutableSet;copyOf([Ljava/lang/Object;)Lcom/google/common/collect/ImmutableSet;"

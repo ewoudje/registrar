@@ -5,12 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "ga.amogussa.registrar.blackmagic.manninghammills.Plugin",
   "mixins": [
-    "MixinPackRepository",
-    "optimization.MixinEntity",
-    "optimization.MixinEntitySelector",
-    "optimization.MixinEntitySelectorOptions",
-    "optimization.MixinEntitySelectorParser",
-    "optimization.MixinEntitySection"
+    "MixinPackRepository"
   ],
   "client": [
     "MixinClientPackSource"

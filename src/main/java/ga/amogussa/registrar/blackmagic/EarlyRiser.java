@@ -11,8 +11,8 @@ public class EarlyRiser implements Runnable {
         MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
         String dataTypePattern = remapper.mapClassName("intermediary", "net.minecraft.class_3264"); // PackType
 
-        ClassTinkerers.enumBuilder(dataTypePattern, String.class, com.mojang.bridge.game.PackType.class)
-                .addEnum("REGISTRAR", "registrar", com.mojang.bridge.game.PackType.DATA)
+        ClassTinkerers.enumBuilder(dataTypePattern, String.class)
+                .addEnum("REGISTRAR", "registrar")
                 .build();
     }
 }

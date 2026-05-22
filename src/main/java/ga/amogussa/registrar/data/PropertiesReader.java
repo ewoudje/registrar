@@ -2,6 +2,8 @@ package ga.amogussa.registrar.data;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
@@ -9,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -19,9 +20,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class PropertiesReader {
-    private static final Map<ResourceLocation, Material> materials = new HashMap<>();
     private static final Map<ResourceLocation, SoundType> soundTypes = new HashMap<>();
-    private static final Map<ResourceLocation, CreativeModeTab> tabs = new HashMap<>();
 
     static {
         soundTypes.put(mc("wood"), SoundType.WOOD);
@@ -100,75 +99,11 @@ public class PropertiesReader {
         soundTypes.put(mc("deepslate_bricks"), SoundType.DEEPSLATE_BRICKS);
         soundTypes.put(mc("deepslate_tiles"), SoundType.DEEPSLATE_TILES);
         soundTypes.put(mc("polished_deepslate"), SoundType.POLISHED_DEEPSLATE);
-        materials.put(mc("air"), Material.AIR);
-        materials.put(mc("structural_air"), Material.STRUCTURAL_AIR);
-        materials.put(mc("portal"), Material.PORTAL);
-        materials.put(mc("cloth_decoration"), Material.CLOTH_DECORATION);
-        materials.put(mc("plant"), Material.PLANT);
-        materials.put(mc("water_plant"), Material.WATER_PLANT);
-        materials.put(mc("replaceable_plant"), Material.REPLACEABLE_PLANT);
-        materials.put(mc("replaceable_fireproof_plant"), Material.REPLACEABLE_FIREPROOF_PLANT);
-        materials.put(mc("replaceable_water_plant"), Material.REPLACEABLE_WATER_PLANT);
-        materials.put(mc("water"), Material.WATER);
-        materials.put(mc("bubble_column"), Material.BUBBLE_COLUMN);
-        materials.put(mc("lava"), Material.LAVA);
-        materials.put(mc("top_snow"), Material.TOP_SNOW);
-        materials.put(mc("fire"), Material.FIRE);
-        materials.put(mc("decoration"), Material.DECORATION);
-        materials.put(mc("web"), Material.WEB);
-        materials.put(mc("sculk"), Material.SCULK);
-        materials.put(mc("buildable_glass"), Material.BUILDABLE_GLASS);
-        materials.put(mc("clay"), Material.CLAY);
-        materials.put(mc("dirt"), Material.DIRT);
-        materials.put(mc("grass"), Material.GRASS);
-        materials.put(mc("ice_solid"), Material.ICE_SOLID);
-        materials.put(mc("sand"), Material.SAND);
-        materials.put(mc("sponge"), Material.SPONGE);
-        materials.put(mc("shulker_shell"), Material.SHULKER_SHELL);
-        materials.put(mc("wood"), Material.WOOD);
-        materials.put(mc("nether_wood"), Material.NETHER_WOOD);
-        materials.put(mc("bamboo_sapling"), Material.BAMBOO_SAPLING);
-        materials.put(mc("bamboo"), Material.BAMBOO);
-        materials.put(mc("wool"), Material.WOOL);
-        materials.put(mc("explosive"), Material.EXPLOSIVE);
-        materials.put(mc("leaves"), Material.LEAVES);
-        materials.put(mc("glass"), Material.GLASS);
-        materials.put(mc("ice"), Material.ICE);
-        materials.put(mc("cactus"), Material.CACTUS);
-        materials.put(mc("stone"), Material.STONE);
-        materials.put(mc("metal"), Material.METAL);
-        materials.put(mc("snow"), Material.SNOW);
-        materials.put(mc("heavy_metal"), Material.HEAVY_METAL);
-        materials.put(mc("barrier"), Material.BARRIER);
-        materials.put(mc("piston"), Material.PISTON);
-        materials.put(mc("moss"), Material.MOSS);
-        materials.put(mc("vegetable"), Material.VEGETABLE);
-        materials.put(mc("egg"), Material.EGG);
-        materials.put(mc("cake"), Material.CAKE);
-        materials.put(mc("amethyst"), Material.AMETHYST);
-        materials.put(mc("powder_snow"), Material.POWDER_SNOW);
-        tabs.put(mc("building_blocks"), CreativeModeTab.TAB_BUILDING_BLOCKS);
-        tabs.put(mc("decorations"), CreativeModeTab.TAB_DECORATIONS);
-        tabs.put(mc("redstone"), CreativeModeTab.TAB_REDSTONE);
-        tabs.put(mc("transportation"), CreativeModeTab.TAB_TRANSPORTATION);
-        tabs.put(mc("misc"), CreativeModeTab.TAB_MISC);
-        tabs.put(mc("search"), CreativeModeTab.TAB_SEARCH);
-        tabs.put(mc("food"), CreativeModeTab.TAB_FOOD);
-        tabs.put(mc("tools"), CreativeModeTab.TAB_TOOLS);
-        tabs.put(mc("combat"), CreativeModeTab.TAB_COMBAT);
-        tabs.put(mc("brewing"), CreativeModeTab.TAB_BREWING);
-        tabs.put(mc("materials"), CreativeModeTab.TAB_MATERIALS);
-        tabs.put(mc("hotbar"), CreativeModeTab.TAB_HOTBAR);
-        tabs.put(mc("inventory"), CreativeModeTab.TAB_INVENTORY);
     }
 
     public static BlockBehaviour.Properties block(ResourceLocation owner, JsonObject root) {
-        if (root == null) return BlockBehaviour.Properties.of(Material.STONE);
-        Material material = computeOrDefault(root, "material",
-                (m) -> materials.get(new ResourceLocation(m.getAsString())),
-                Material.STONE);
-
-        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of(material);
+        if (root == null) return BlockBehaviour.Properties.of();
+        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of();
 
         properties.destroyTime(computeOrDefault(root, "destroyTime",
                 JsonElement::getAsFloat,
@@ -191,7 +126,11 @@ public class PropertiesReader {
         if (computeOrDefault(root, "noDrops",
                 JsonElement::getAsBoolean,
                 false))
-            properties.noDrops();
+            properties.noLootTable();
+        else if (computeOrDefault(root, "noLootTable",
+                JsonElement::getAsBoolean,
+                false))
+            properties.noLootTable();
 
         if (computeOrDefault(root, "requiresCorrectToolForDrops",
                 JsonElement::getAsBoolean,
@@ -214,24 +153,16 @@ public class PropertiesReader {
 
     public static Item.Properties item(ResourceLocation owner, JsonObject item) {
         Item.Properties properties = new Item.Properties();
-        if (item == null) return properties.tab(getDefaultTab());
+        if (item == null) return properties;
 
         properties.stacksTo(computeOrDefault(item, "stackSize",
                 JsonElement::getAsInt, 64));
-
-        CreativeModeTab tab = computeOrDefault(item, "creativeTab",
-                (m) -> tabs.get(new ResourceLocation(m.getAsString())),
-                getDefaultTab());
 
         properties.rarity(computeOrDefault(item, "rarity",
                 (m) -> Rarity.valueOf(m.getAsString()),
                 Rarity.COMMON));
 
         properties.food(food(owner, item.getAsJsonObject("food")));
-
-        if (tab != null)
-            properties.tab(tab);
-
         return properties;
     }
 
@@ -266,11 +197,7 @@ public class PropertiesReader {
         return builder.build();
     }
 
-    private static CreativeModeTab getDefaultTab() {
-        return CreativeModeTab.TAB_MISC;
-    }
-
-    private static <T> T computeOrDefault(JsonObject root, String element, Function<JsonElement, T> compute, T def) {
+    public static <T> T computeOrDefault(JsonObject root, String element, Function<JsonElement, T> compute, T def) {
         if (root.get(element) == null) return def;
         try {
             T result = compute.apply(root.get(element));
@@ -293,10 +220,6 @@ public class PropertiesReader {
         fillStaticMap(Material.class, "materials");
         fillStaticMap(CreativeModeTab.class, "tabs", (s) -> s.substring(4), (s) ->! s.equals("tabs"));
     }*/
-
-    public static void addTab(ResourceLocation location, CreativeModeTab tab) {
-        tabs.put(location, tab);
-    }
 
     private static <T> void fillStaticMap(Class<T> clazz, String mapName) {
         fillStaticMap(clazz, mapName, (s) -> s, (s) -> true);

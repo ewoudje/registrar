@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -26,7 +27,7 @@ public class BlockHandler {
             BlockRenderLayerMap.INSTANCE.putBlock(block, layers.get(layer));
         }
 
-        Registry.register(Registry.BLOCK, location, block);
+        Registry.register(BuiltInRegistries.BLOCK, location, block);
     }
 
     @Environment(EnvType.CLIENT)
