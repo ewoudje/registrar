@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class BlockHandler {
     @Environment(EnvType.CLIENT)
-    private static final Map<ResourceLocation, RenderType> layers = new HashMap<>();
+    private static  Map<ResourceLocation, RenderType> layers;
 
     public static void registerBlock(ResourceLocation location, Block block, JsonObject root) {
         if (!root.has("noItem") || !root.get("noItem").getAsBoolean()) {
@@ -32,6 +32,7 @@ public class BlockHandler {
 
     @Environment(EnvType.CLIENT)
     public static void initRenderTypes() {
+        layers = new HashMap<>();
         layers.put(new ResourceLocation("minecraft:solid"), RenderType.solid());
         layers.put(new ResourceLocation("minecraft:cutout"), RenderType.cutout());
         layers.put(new ResourceLocation("minecraft:cutout_mipped"), RenderType.cutoutMipped());
